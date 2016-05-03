@@ -25,7 +25,7 @@ Or install it yourself as:
 Setup the pathing object with your CSV files
 ```
 # setup
-pathing = Corepathing::Pathing.new("spec/data/student_tests.csv", "spec/data/domain_order.csv")
+pathing = Corepathing::Pathing.new("spec/data/stu.csv", "spec/data/ord.csv")
 
 # the parameter is the limit for number of steps to return for each student
 pathing.path_students(5)
