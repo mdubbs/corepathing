@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/mdubbs/corepathing.svg?branch=master)](https://travis-ci.org/mdubbs/corepathing)
+[![Build Status](https://travis-ci.org/mdubbs/corepathing.svg?branch=master)](https://travis-ci.org/mdubbs/corepathing) [![Code Climate](https://codeclimate.com/github/mdubbs/corepathing/badges/gpa.svg)](https://codeclimate.com/github/mdubbs/corepathing)
 
 # Corepathing
 
