@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mdubbs/corepathing.svg?branch=master)](https://travis-ci.org/mdubbs/corepathing)
+
 # Corepathing
 
 Produces student education paths from provided domain ordering and student test scores CSV files.
