@@ -1,8 +1,6 @@
 # Corepathing
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/corepathing`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Produces student education paths from provided domain ordering and student test scores CSV files.
 
 ## Installation
 
@@ -22,7 +20,14 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Setup the pathing object with your CSV files
+```
+# setup
+pathing = Corepathing::Pathing.new("spec/data/student_tests.csv", "spec/data/domain_order.csv")
+
+# the parameter is the limit for number of steps to return for each student
+pathing.path_students(5)
+```
 
 ## Development
 
