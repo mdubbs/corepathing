@@ -29,6 +29,7 @@ pathing = Corepathing::Pathing.new("spec/data/stu.csv", "spec/data/ord.csv")
 
 # the parameter is the limit for number of steps to return for each student
 pathing.path_students(5)
+
 # will return an array of strings, each string representing the student's path
 ["Albin Stanton,K.RI,1.RI,2.RF,2.RI,3.RF", "Erik Purdy,1.RL,1.RI,2.RI,2.RL,2.L", "Aimee Cole,K.RF,K.RL,1.RF,1.RL,1.RI", "...etc"]
 ```
