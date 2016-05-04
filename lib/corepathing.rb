@@ -2,12 +2,10 @@ require "corepathing/version"
 require 'csv'
 module Corepathing
   class Pathing
-
     ##
     # Creates a new learning path object from the given domain_ordering and
     # student_tests CSV files
     #
-
     def initialize(student_tests, domain_order)
       # load up the CSV files and parse
       @STUDENT_TESTS = CSV.read(student_tests, headers: true)
@@ -43,7 +41,7 @@ module Corepathing
 
       # iterate through the domain ordering file
       @DOMAIN_ORDER.each do |r|
-        # get the current level we are on
+        # get the current row's level (grade) we are on
         r_level = r[0]
         # iterate through the level's ordering (R -> L)
         r[1..-1].each do |r_domain|
