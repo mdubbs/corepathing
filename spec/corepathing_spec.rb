@@ -16,7 +16,7 @@ describe Corepathing do
 
     it 'should return an array of student objects' do
       expect(@students.class).to eq(Array)
-      expect(@students[0].class).to eq(Student)
+      expect(@students[0].class).to eq(Corepathing::Student)
     end
 
     it 'should calculate pathing of student based on scores/domain ordering' do
