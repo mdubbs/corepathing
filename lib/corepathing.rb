@@ -1,7 +1,9 @@
 require "corepathing/version"
 require 'csv'
+
 module Corepathing
   class Pathing
+    require 'Student'
     ##
     # Creates a new learning path object from the given domain_ordering and
     # student_tests CSV files
@@ -12,10 +14,13 @@ module Corepathing
       @DOMAIN_ORDER = CSV.read(domain_order, headers: false)
     end
 
-    def path_students(limit)
+    def path_students(limit = nil)
       # generate each student's learning path and return an array of the
       # students found in the student csv.
       ret = []
+      if limit.nil?
+        limit = 5
+      end
       # iterate through the students
       @STUDENT_TESTS.each do |x|
         ret.push(get_path(x, limit))
@@ -23,46 +28,61 @@ module Corepathing
       ret
     end
 
-    def get_path(student_row, limit)
+    def get_path(student_test_score_row, limit = nil)
       # calculate the path for a given student, and return the number of steps
       # desired.
 
       # grab the students name
-      name = student_row[0]
+      current_student_name = student_test_score_row[0]
       # init some data structures
-      current_levels = {}
-      path = []
+      student_max_grade_levels = {}
+      student_path = []
+      students = []
+
+      if limit.nil?
+        limit = 5
+      end
 
       # iterate through the students excluding the header row
-      student_row.to_a[1..-1].each do |domain, level|
+      student_test_score_row.to_a[1..-1].each do |domain, grade_level|
         # set the max levels for each domain
-        current_levels[domain] = level
+        student_max_grade_levels[domain] = grade_level
       end
 
       # iterate through the domain ordering file
-      @DOMAIN_ORDER.each do |r|
-        # get the current row's level (grade) we are on
-        r_level = r[0]
-        # iterate through the level's ordering (R -> L)
-        r[1..-1].each do |r_domain|
-          # grab the max level for the given domain (RF, RI, etc)
-          max_level = current_levels[r_domain]
+      @DOMAIN_ORDER.each do |domain_row|
 
-          if r_level == "K" && max_level != "K" #if the current level is K and max isn't, ignore it
-          elsif r_level == max_level
+        path_obj = {}
+        # get the current row's level (grade) we are on
+
+        domain_row_grade_level = domain_row[0]
+        # iterate through the level's ordering (Right -> Left)
+
+        domain_row[1..-1].each do |commone_core_domain|
+
+          # grab the max grade level for the given cc domain (RF, RI, etc)
+          student_max_domain_grade_level = student_max_grade_levels[commone_core_domain]
+
+          #if the current level is K and max isn't, ignore it
+          if domain_row_grade_level == "K" && student_max_domain_grade_level != "K"
+            #don't add it
+          elsif domain_row_grade_level == student_max_domain_grade_level
             #if the levels match add it
-            path.push("#{r_level}.#{r_domain}")
+            student_path.push({domain_row_grade_level => commone_core_domain })
           else
-            if max_level < r_level
-              path.push("#{r_level}.#{r_domain}")
-            elsif max_level == "K"
-              path.push("#{r_level}.#{r_domain}")
+            if student_max_domain_grade_level < domain_row_grade_level
+              student_path.push({domain_row_grade_level => commone_core_domain })
+            elsif student_max_domain_grade_level == "K"
+              student_path.push({domain_row_grade_level => commone_core_domain })
             end
           end
         end
+
       end
-      # return formatted pathing string based on passed limit
-      return "#{name},#{path[0, limit].join(",")}"
+      student = Student.new(current_student_name, student_max_grade_levels, student_path[0...limit])
+
+      # return formatted string based on passed limit
+      return student
     end
   end
 end
