@@ -15,8 +15,8 @@ module Corepathing
     end
 
     def to_s
-      z = @path.map{|p| p.map{|k,v| "#{k}.#{v}"} }.join(',')
-      return "#{@name},#{z}"
+      education_path_string = @path.map{|p| p.map{|k,v| "#{k}.#{v}"} }.join(',')
+      return "#{@name},#{education_path_string}"
     end
   end
 
@@ -25,35 +25,36 @@ module Corepathing
     # student_tests CSV files
     def initialize(student_tests, domain_order)
       # load up the CSV files and parse
-      @STUDENT_TESTS = CSV.read(student_tests, headers: true)
-      @DOMAIN_ORDER = CSV.read(domain_order, headers: false)
+      @STUDENT_TEST_SCORE_FILE = CSV.read(student_tests, headers: true)
+      @DOMAIN_ORDER_FILE = CSV.read(domain_order, headers: false)
     end
 
     def path_students(limit = nil)
-      # generate each student's learning path and return an array of the
-      # students found in the student csv.
-      ret = []
+      # generate each student's learning path and return an array of
+      # student objects
+      return_array = []
+
+      #default limit to 5
       if limit.nil?
         limit = 5
       end
       # iterate through the students
-      @STUDENT_TESTS.each do |x|
-        ret.push(get_path(x, limit))
+      @STUDENT_TEST_SCORE_FILE.each do |x|
+        return_array.push(get_path(x, limit))
       end
-      ret
+      return_array
     end
 
     def get_path(student_test_score_row, limit = nil)
       # calculate the path for a given student, and return the number of steps
       # desired.
-
-      # grab the students name
       current_student_name = student_test_score_row[0]
-      # init some data structures
+
       student_max_grade_levels = {}
       student_path = []
       students = []
 
+      # default limit to 5
       if limit.nil?
         limit = 5
       end
@@ -65,7 +66,7 @@ module Corepathing
       end
 
       # iterate through the domain ordering file
-      @DOMAIN_ORDER.each do |domain_row|
+      @DOMAIN_ORDER_FILE.each do |domain_row|
         path_obj = {}
 
         # get the current row's level (grade) we are on
