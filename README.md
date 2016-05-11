@@ -31,7 +31,15 @@ pathing = Corepathing::Pathing.new("spec/data/stu.csv", "spec/data/ord.csv")
 pathing.path_students(5)
 
 # will return an array of strings, each string representing the student's path
-["Albin Stanton,K.RI,1.RI,2.RF,2.RI,3.RF", "Erik Purdy,1.RL,1.RI,2.RI,2.RL,2.L", "Aimee Cole,K.RF,K.RL,1.RF,1.RL,1.RI", "...etc"]
+[#<Corepathing::Student:0x007fe8ab8d0568 @name="Albin Stanton", @max_domain_levels={"RF"=>"2", "RL"=>"3", "RI"=>"K", "L"=>"3"}, @path=[{"K"=>"RI"}, {"1"=>"RI"}, {"2"=>"RF"}, {"2"=>"RI"}, {"3"=>"RF"}]>, #<Corepathing::Student:0x007fe8ab8ca550 @name="Erik Purdy", @max_domain_levels={"RF"=>"3", "RL"=>"1", "RI"=>"1", "L"=>"1"}, @path=[{"1"=>"RL"}, {"1"=>"RI"}, {"2"=>"RI"}, {"2"=>"RL"}, {"2"=>"L"}]>]
+
+#if you just want to calculate one student, given their row you can do
+student_obj = pathing.get_path(student_row)
+#<Corepathing::Student:0x007fc92b4f3e30 @name="Albin Stanton", @max_domain_levels={"RF"=>"2", "RL"=>"3", "RI"=>"K", "L"=>"3"}, @path=[{"K"=>"RI"}, {"1"=>"RI"}, {"2"=>"RF"}, {"2"=>"RI"}, {"3"=>"RF"}]>
+
+#to get the string representation of the student's education path
+student_obj.to_s
+# will return "Albin Stanton,K.RI,1.RI,2.RF,2.RI,3.RF"
 ```
 
 ## Development

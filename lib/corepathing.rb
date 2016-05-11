@@ -2,6 +2,7 @@ require "corepathing/version"
 require 'csv'
 
 module Corepathing
+  # Class for Student object
   class Student
     attr_accessor :name
     attr_accessor :max_domain_levels
@@ -20,10 +21,8 @@ module Corepathing
   end
 
   class Pathing
-    ##
     # Creates a new learning path object from the given domain_ordering and
     # student_tests CSV files
-    #
     def initialize(student_tests, domain_order)
       # load up the CSV files and parse
       @STUDENT_TESTS = CSV.read(student_tests, headers: true)
@@ -67,28 +66,27 @@ module Corepathing
 
       # iterate through the domain ordering file
       @DOMAIN_ORDER.each do |domain_row|
-
         path_obj = {}
+
         # get the current row's level (grade) we are on
-
         domain_row_grade_level = domain_row[0]
-        # iterate through the level's ordering (Right -> Left)
 
+        # iterate through the level's ordering (Right -> Left)
         domain_row[1..-1].each do |commone_core_domain|
 
           # grab the max grade level for the given cc domain (RF, RI, etc)
-          student_max_domain_grade_level = student_max_grade_levels[commone_core_domain]
+          max_domain_grade_level = student_max_grade_levels[commone_core_domain]
 
           #if the current level is K and max isn't, ignore it
-          if domain_row_grade_level == "K" && student_max_domain_grade_level != "K"
+          if domain_row_grade_level == "K" && max_domain_grade_level != "K"
             #don't add it
-          elsif domain_row_grade_level == student_max_domain_grade_level
+          elsif domain_row_grade_level == max_domain_grade_level
             #if the levels match add it
             student_path.push({domain_row_grade_level => commone_core_domain })
           else
-            if student_max_domain_grade_level < domain_row_grade_level
+            if max_domain_grade_level < domain_row_grade_level
               student_path.push({domain_row_grade_level => commone_core_domain })
-            elsif student_max_domain_grade_level == "K"
+            elsif max_domain_grade_level == "K"
               student_path.push({domain_row_grade_level => commone_core_domain })
             end
           end
@@ -97,7 +95,6 @@ module Corepathing
       end
       student = Student.new(current_student_name, student_max_grade_levels, student_path[0...limit])
 
-      # return formatted string based on passed limit
       return student
     end
   end

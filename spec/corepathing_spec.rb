@@ -28,8 +28,8 @@ describe Corepathing do
     end
 
     it 'should return a student object with pathing limit provided' do
-      @students = @cc_obj.path_students(6)
-      expect(@students[0].path.length).to eq(6)
+      students = CSV.read("spec/data/stu.csv", headers: true)
+      puts @cc_obj.get_path(students[0]).inspect
     end
 
     it 'should return a student object with default pathing limit (5)' do
